@@ -7,8 +7,8 @@
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-    <!-- 패키지 내 Controller, Service, Repository 클래스의 auto detect를 위한 mvc 설정 -->
-    <context:component-scan base-package="egovframework.edu">
+    <!-- 패키지 내 @Controller, @Service, @Repository 클래스를 빈으로 자동등록하기 위한 mvc 설정 -->
+    <context:component-scan base-package="egovframework,edu">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
@@ -38,11 +38,12 @@
             <mvc:mapping path="/cop/com/*.do"/>
             <mvc:mapping path="/cop/bbs/*Master*.do"/>
             <mvc:mapping path="/uat/uia/*.do"/>
+            <mvc:mapping path="/admin/**/*.do"/>
             <mvc:exclude-mapping path="/uat/uia/actionLogin.do"/>
             <mvc:exclude-mapping path="/uat/uia/egovLoginUsr.do"/>
 		    <bean class="egovframework.com.cmm.interceptor.AuthenticInterceptor" />
         </mvc:interceptor>
-    </mvc:interceptors> 
+    </mvc:interceptors>
 
     <!-- Annotation 을 사용하지 않는 경우에 대한 MVC 처리 설정 -->
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>

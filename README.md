@@ -45,3 +45,41 @@ eGovFrame메뉴에서 Start > New TemplateProject 심플홈 템플릿 만들어�
 파스타클라우드 제일 마직막 달에 2주 기간중 배포(클라우드용-mysql을사용)
 IoT(아두이노,노드MCU보드로 실습-C언어책3권) 2주
 안드로이드앱(클라이언트)-통신-자바:스프링웹프로젝트(API서버) 2주
+
+
+20210216(화) 작업.
+이클립스 빌드 속도 때문에 window메뉴->preference->validation검색->build탭의 체크모두해제 시킴->OK.
+web패키지(컨트롤러) 작업 + AdminLTE로 뷰jsp단 작업.(마이바티스기반-새로만들기)
+jsp단의 root(최상위)경로를 html태그의 / 에서 <c:url value='/' /> 로 변경했음.
+/admin/home.do URL액션을 주는 설정(web.xml) 확인.
+/admin/**/*.do URL액션에 로그인체크권한설정추가(egov-com-servlet.xml).
+결과는 사용자(기존)과 관리자단을 분리했습니다.
+관리자단 home.jsp > header, footer 로 분리.
+코드 인스펙션(소스 분석): egov프로젝트의 진입점(webapp/index.jsp) 확인.
+egov프로젝트의 jsp(동적페이지)폴더에 html(정적페이지)를 jsp로 변환해서 배치합니다.
+공통코드(기본코드) 테이블 이용에 대한 개념이 있어야 합니다. 오늘은 여기까지
+-- Mysql 데이터베이스에서 CODE테이블의 코드명 가져오는 함수 만들기 (아래)
+CREATE FUNCTION FN_CODE_NM (
+P_CODE_ID VARCHAR(255),
+P_CODE VARCHAR(255)
+)
+RETURNS VARCHAR(255)
+BEGIN
+DECLARE RETURN_VAR VARCHAR(255);
+SELECT CODE_NM INTO RETURN_VAR
+FROM lettccmmndetailcode 
+WHERE 
+CODE_ID = P_CODE_ID AND CODE = P_CODE;
+RETURN RETURN_VAR;
+END
+
+CREATE FUNCTION FN_GROUP_NM(P_GROUP_ID VARCHAR(255)
+) RETURNS varchar(255) CHARSET utf8
+BEGIN
+DECLARE RETURN_VAR VARCHAR(255);
+SELECT GROUP_NM INTO RETURN_VAR
+FROM lettnauthorgroupinfo
+WHERE 
+GROUP_ID = P_GROUP_ID;
+RETURN RETURN_VAR;
+END

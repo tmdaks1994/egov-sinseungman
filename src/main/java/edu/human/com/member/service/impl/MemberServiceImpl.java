@@ -20,4 +20,28 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectMember();
 	}
 
+	@Override
+	public EmployerInfoVO viewMember(String emplyr_id) throws Exception {
+		// DAO클래스에서 메소드 호출
+		return memberDAO.viewMember(emplyr_id);
+	}
+
+	@Override
+	public int deleteMember(String emplyr_id) throws Exception {
+		// TODO Auto-generated method stub
+		return memberDAO.deleteMember(emplyr_id);
+	}
+
+	@Override
+	public void insertMember(EmployerInfoVO employerInfoVO) throws Exception {
+		// TODO Auto-generated method stub
+		memberDAO.insertMember(employerInfoVO);
+	}
+
+	@Override
+	public void updateMember(EmployerInfoVO employerInfoVO) throws Exception {
+		// TODO Auto-generated method stub
+		memberDAO.updateMember(employerInfoVO);
+	}
+
 }

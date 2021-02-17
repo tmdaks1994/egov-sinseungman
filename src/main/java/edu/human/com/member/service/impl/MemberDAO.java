@@ -13,11 +13,28 @@ import edu.human.com.member.service.EmployerInfoVO;
  * @author 뚫어봐
  *
  */
+
 @Repository
 public class MemberDAO extends EgovComAbstractMapper {
 
 	public List<EmployerInfoVO> selectMember() throws Exception {
-
 		return selectList("memberMapper.selectMember");
+	}
+	
+	public EmployerInfoVO viewMember(String emplyr_id) throws Exception {
+		return selectOne("memberMapper.viewMember", emplyr_id);
+	}
+
+	public int deleteMember(String emplyr_id) throws Exception {
+		//affected된 row값이 반환
+		return delete("memberMapper.deleteMember", emplyr_id);
+	}
+	
+	public void insertMember(EmployerInfoVO employerInfoVO) throws Exception {
+		insert("memberMapper.insertMember", employerInfoVO);
+	}
+	
+	public void updateMember(EmployerInfoVO employerInfoVO) throws Exception {
+		update("memberMapper.updateMember", employerInfoVO);
 	}
 }
