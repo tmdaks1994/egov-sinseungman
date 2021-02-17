@@ -41,7 +41,7 @@ public class MemberTest {
 		memberVO.setPASSWORD(secPassword);
 		memberVO.setEMAIL_ADRES(memberVO.getEMPLYR_ID() + "@abc.com");
 		memberVO.setPASSWORD_HINT("사는동네는?");//널체크에러때문에 질문추가
-		//암호힌트에대한 답변(아래)
+		//암호힌트에대한 답변
 		memberVO.setPASSWORD_CNSR("쌍용동");
 		memberVO.setSEXDSTN_CODE("F");
 		memberVO.setHOUSE_ADRES("집주소");
@@ -62,22 +62,22 @@ public class MemberTest {
 	}
 	@Test
 	public void insertMember() throws Exception {
-		EmployerInfoVO memberVO = new EmployerInfoVO();//고전방식 객체생성
+		EmployerInfoVO memberVO = new EmployerInfoVO();
 		//memberVO에 set으로 값을 입력한 이후 DB에 인서트함.
 		//emplyr_id는 기본키이기 때문에 중복허용하지 않게 처리(아래)
 		List<EmployerInfoVO> memberList = memberService.selectMember();
 		memberVO.setEMPLYR_ID("user_" + memberList.size());
 		memberVO.setORGNZT_ID("ORGNZT_0000000000000");//외래키이기때문에
 		memberVO.setUSER_NM("사용자_" + memberList.size());
-		//암호화 작업(아래) 스프링시큐리티X, egov전용 시큐리티암호화("입력한문자","입력한ID")
+		//암호화 작업 스프링시큐리티X, egov전용 시큐리티암호화("입력한문자","입력한ID")
 		String secPassword = EgovFileScrty.encryptPassword("1234",memberVO.getEMPLYR_ID());
 		memberVO.setPASSWORD(secPassword);
 		memberVO.setEMAIL_ADRES("abc@abc.com");
-		memberVO.setPASSWORD_HINT("사는동네는?");//널체크에러때문에 질문추가
-		//암호힌트에대한 답변(아래)
-		memberVO.setPASSWORD_CNSR("쌍용동");
+		memberVO.setPASSWORD_HINT("살고있는 동네는?");//널체크에러때문에 질문추가
+		//암호힌트에대한 답변
+		memberVO.setPASSWORD_CNSR("불당동");
 		memberVO.setSEXDSTN_CODE("F");
-		memberVO.setHOUSE_ADRES("집주소");
+		memberVO.setHOUSE_ADRES("집 주소");
 		memberVO.setGROUP_ID("GROUP_00000000000000");//외래키이기때문에 부모테이블에 있는값을 넣어야 함.
 		memberVO.setEMPLYR_STTUS_CODE("P");//회원상태코드 P-활성,S-비활성
 		memberVO.setESNTL_ID("USRCNFRM_" + memberList.size());//고유ID이기때문에 중복되면 않됨

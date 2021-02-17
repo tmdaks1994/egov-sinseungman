@@ -1,6 +1,7 @@
 package edu.human.com.common;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -80,7 +81,6 @@ public abstract class EgovComAbstractMapper extends EgovAbstractMapper {
 		return getSqlSession().update(queryId, parameterObject);
 	}
 
-	
 	@Override
 	public <E> List<E> selectList(String queryId, Object parameterObject, RowBounds rowBounds) {
 		return getSqlSession().selectList(queryId, parameterObject, rowBounds);
@@ -99,4 +99,16 @@ public abstract class EgovComAbstractMapper extends EgovAbstractMapper {
 		return getSqlSession().selectList(queryId, parameterObject, rowBounds);
 	}
 	
+	@Override
+	public <K, V> Map<K, V> selectMap(String queryId, Object parameterObject, String mapKey) {
+		// 공통코드를 위한 맵타입을 반환하는 sqlSession템플릿 사용(아래)
+		return getSqlSession().selectMap(queryId, parameterObject, mapKey);
+	}
+
+	@Override
+	public <K, V> Map<K, V> selectMap(String queryId, String mapKey) {
+		// 그룹코드는 키로 이름은 value
+		return getSqlSession().selectMap(queryId, mapKey);
+	}
+
 }
