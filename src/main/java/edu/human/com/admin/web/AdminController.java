@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.human.com.member.service.EmployerInfoVO;
 import edu.human.com.member.service.MemberService;
+import edu.human.com.util.PageVO;
+import egovframework.let.utl.sim.service.EgovFileScrty;
 
 @Controller
 public class AdminController {
@@ -20,6 +22,13 @@ public class AdminController {
 	@Inject
 	private MemberService memberService;
 	
+	@RequestMapping(value="/admin/member/delete_member.do",method=RequestMethod.POST)
+	public String delete_member(EmployerInfoVO memberVO, RedirectAttributes rdat) throws Exception {
+		
+		memberService.deleteMember(memberVO.getEMPLYR_ID());
+		rdat.addFlashAttribute("msg","삭제");
+		return "redirect:/admin/member/list_member.do";
+	}
 	@RequestMapping(value="/admin/member/view_member.do",method=RequestMethod.GET)
 	public String view_member(Model model,@RequestParam("emplyr_id") String emplyr_id) throws Exception {
 		EmployerInfoVO memberVO = memberService.viewMember(emplyr_id);
@@ -32,15 +41,46 @@ public class AdminController {
 		return "admin/member/view_member";
 	}
 	
+	@RequestMapping(value="/admin/member/insert_member.do",method=RequestMethod.GET)
+	public String insert_member(Model model) throws Exception {
+		model.addAttribute("codeMap", memberService.selectCodeMap("COM999"));
+		model.addAttribute("codeGroup", memberService.selectGroupMap());
+		return "admin/member/insert_member";
+	}
+	
+	@RequestMapping(value="/admin/member/insert_member.do",method=RequestMethod.POST)
+	public String insert_member(EmployerInfoVO memberVO,RedirectAttributes rdat) throws Exception {
+		
+		String formpassword = memberVO.getPASSWORD();
+		String encPassword = EgovFileScrty.encryptPassword(formpassword, memberVO.getEMPLYR_ID());
+		memberVO.setPASSWORD(encPassword);
+		memberVO.setESNTL_ID("USERCNFRM_" + memberVO.getEMPLYR_ID());
+		memberService.insertMember(memberVO);
+		rdat.addFlashAttribute("msg","입력");
+		return "redirect:/admin/member/list_member.do";
+	}
+	
 	@RequestMapping(value="/admin/member/update_member.do",method=RequestMethod.POST)
 	public String update_member(EmployerInfoVO memberVO,RedirectAttributes rdat) throws Exception {
+		
+		if(memberVO.getPASSWORD() != null) {
+			String formPassword = memberVO.getPASSWORD();
+			String encPassword = EgovFileScrty.encryptPassword(formPassword,memberVO.getEMPLYR_ID());
+			memberVO.setPASSWORD(encPassword);
+		}
 		memberService.updateMember(memberVO);
 		rdat.addFlashAttribute("msg","수정");
 		return "redirect:/admin/member/view_member.do?emplyr_id=" +memberVO.getEMPLYR_ID();
 	}
+	
 	@RequestMapping(value="/admin/member/list_member.do",method=RequestMethod.GET)
-	public String list_member(Model model) throws Exception {
-		List<EmployerInfoVO> listMember = memberService.selectMember();
+	public String list_member(Model model,PageVO pageVO) throws Exception {
+		if(pageVO.getPage() == null) {
+			pageVO.setPage(1);
+		}		
+		pageVO.setPerPageNum(5);//하단의 페이징보여줄 개수
+		pageVO.setQueryPerPageNum(10);//쿼리에서 1페이당 보여줄 개수=화면에서 1페이당 보여줌
+		List<EmployerInfoVO> listMember = memberService.selectMember(pageVO);
 		model.addAttribute("listMember", listMember);
 		return "admin/member/list_member";
 	}
