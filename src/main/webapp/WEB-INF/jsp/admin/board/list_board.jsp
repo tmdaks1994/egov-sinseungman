@@ -85,6 +85,7 @@
                       <c:out value="${paginationInfo.totalRecordCount+1-((searchVO.pageIndex-1)*searchVO.pageSize+status.count)}"/>
                       </td>
                       <td>
+                      <form name="view_form" action="<c:url value='/admin/board/view_board.do' />" method="post">
                       <!-- 답글일경우 계단식표시 추가(아래) -->
                       <c:if test="${result.replyLc!=0}">
 		                <c:forEach begin="0" end="${result.replyLc}" step="1">
@@ -92,7 +93,8 @@
 		                </c:forEach>
 		                &#8627;<!-- 화살표 특수문자 -->
 		              </c:if>
-                      <input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>" />
+		              
+                        <input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>" />
                         <input type="hidden" name="nttId"  value="<c:out value="${result.nttId}"/>" />
                         <input type="hidden" name="bbsTyCode" value="<c:out value='${brdMstrVO.bbsTyCode}'/>" />
                         <input type="hidden" name="bbsAttrbCode" value="<c:out value='${brdMstrVO.bbsAttrbCode}'/>" />
@@ -149,7 +151,7 @@
 
 <%@ include file="../include/footer.jsp" %>
 <script>
-${document}.ready(function(){
+$(document).ready(function(){
 	$(".btn_submit").on("click",function(){
 		var form_object = $(this).parent("form[name='view_form']");
 		form_object.submit();
