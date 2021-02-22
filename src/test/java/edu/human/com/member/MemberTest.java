@@ -93,6 +93,12 @@ public class MemberTest {
 	@Test
 	public void selectMember() throws Exception {
 		PageVO pageVO = new PageVO();
+		pageVO.setPage(1);
+		pageVO.setPerPageNum(5);//하단의 페이징보여줄 개수
+		pageVO.setQueryPerPageNum(10);//쿼리에서 1페이당 보여줄 개수=화면에서 1페이당 보여줌
+		List<EmployerInfoVO> listMember = memberService.selectMember(pageVO);
+		//전체페이지 개수는 자동계산=total카운트를 계산순간(아래)
+		pageVO.setTotalCount(listMember.size());
 		List<EmployerInfoVO> memberList = memberService.selectMember(pageVO);
 		for(EmployerInfoVO member:memberList) {
 			System.out.println("현재 등록된 회원은 " + member.toString());
