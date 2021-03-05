@@ -167,9 +167,9 @@
 					          <tr> 
 					            <th height="23" >첨부이미지</th>
 					            <td colspan="5">
-					              <c:import url="/cmm/fms/selectImageFileInfs.do" charEncoding="utf-8">
-					                  <c:param name="atchFileId" value="${result.atchFileId}" />
-					              </c:import>
+					                    <c:import url="/cmm/fms/selectImageFileInfs.do" charEncoding="utf-8">
+					                        <c:param name="atchFileId" value="${result.atchFileId}" />
+					                    </c:import>
 					            </td>
 					          </tr>
 					          </c:if>

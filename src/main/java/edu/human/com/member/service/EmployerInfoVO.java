@@ -3,8 +3,9 @@ package edu.human.com.member.service;
 import java.util.Date;
 
 /**
- * EmployerInfoVO클래스는 회원관리 테이블과 get/set하는 멤버변수 생성
- * @author 뚫어봐
+ * EmployerInfoVO클래스는 회원관리 테이블과 Get/Set하는 멤버변수를 생성한다.
+ * 테이블명: (lettn)emplyinfo
+ * @author 김일국
  *
  */
 public class EmployerInfoVO {
@@ -35,7 +36,7 @@ public class EmployerInfoVO {
 	private String ESNTL_ID;
 	private String CRTFC_DN_VALUE;
 	private Date SBSCRB_DE;
-
+	
 	@Override
 	public String toString() {
 		return "EmployerInfoVO [EMPLYR_ID=" + EMPLYR_ID + ", ORGNZT_ID=" + ORGNZT_ID + ", USER_NM=" + USER_NM
@@ -83,12 +84,6 @@ public class EmployerInfoVO {
 	}
 	public void setIHIDNUM(String iHIDNUM) {
 		IHIDNUM = iHIDNUM;
-	}
-	public String getSEXDSTN_CODE() {
-		return SEXDSTN_CODE;
-	}
-	public void setSEXDSTN_CODE(String sEXDSTN_CODE) {
-		SEXDSTN_CODE = sEXDSTN_CODE;
 	}
 	public String getBRTHDY() {
 		return BRTHDY;
@@ -210,5 +205,11 @@ public class EmployerInfoVO {
 	public void setSBSCRB_DE(Date sBSCRB_DE) {
 		SBSCRB_DE = sBSCRB_DE;
 	}
-
+	public String getSEXDSTN_CODE() {
+		return SEXDSTN_CODE;
+	}
+	public void setSEXDSTN_CODE(String sEXDSTN_CODE) {
+		SEXDSTN_CODE = sEXDSTN_CODE;
+	}
+	
 }

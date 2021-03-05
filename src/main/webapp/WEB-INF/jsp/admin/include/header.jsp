@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>   
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!-- 관리자단 헤더 시작 header.jsp -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -30,9 +31,8 @@
   <link rel="stylesheet" href="<c:url value='/' />resources/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="<c:url value='/' />resources/plugins/summernote/summernote-bs4.min.css">
-
 <script>
-if("${msg}"!="") {
+if("${msg}"!="") { //RedirectAttributes 로 컨트롤러에서 보내온 값을 출력
 	alert("${msg}가(이) 성공하였습니다.");
 }
 </script>
@@ -76,7 +76,7 @@ if("${msg}"!="") {
           <img src="<c:url value='/' />resources/dist/img/default-150x150.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-           <a href="#" class="d-block">${LoginVO.name}-${LoginVO.id}</a>
+          <a href="#" class="d-block">${LoginVO.name}-${LoginVO.id}</a>
         </div>
       </div>
 
@@ -116,7 +116,7 @@ if("${msg}"!="") {
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <a href="<c:url value='/admin/member/list_member.do' />" class="nav-link">
+                <a href="<c:url value='/admin/member/list_member.do' />" class="nav-link">
                 <!-- 위 메뉴선택시 활성화active 되는 것은 j쿼리로 만들예정입니다. -->
                   <i class="far fa-circle nav-icon"></i>
                   <p>관리자 관리</p>
@@ -131,7 +131,7 @@ if("${msg}"!="") {
               <li class="nav-item">
                 <a href="<c:url value='/' />admin/board/list_board.do?bbsId=BBSMSTR_BBBBBBBBBBBB" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>갤러리 관리</p>
+                  <p>겔러리 관리</p>
                 </a>
               </li>
             </ul>

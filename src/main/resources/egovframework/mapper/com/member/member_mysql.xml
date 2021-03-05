@@ -18,8 +18,8 @@ select EMPLYR_ID,USER_NM,EMAIL_ADRES
 ,FN_CODE_NM('COM999',EMPLYR_STTUS_CODE) AS EMPLYR_STTUS_CODE
 ,SBSCRB_DE
 ,FN_GROUP_NM(GROUP_ID) AS GROUP_ID
-from lettnemplyrinfo 
-<if test="search_type != null and search_type !='' ">
+from lettnemplyrinfo
+<if test="search_type !=null and search_type !='' ">
 where
 	<if test="search_type == 'all'.toString() ">
 		EMPLYR_ID LIKE CONCAT('%',#{search_keyword},'%')
@@ -29,10 +29,10 @@ where
 	<if test="search_type == 'user_id'.toString() ">
 		EMPLYR_ID LIKE CONCAT('%',#{search_keyword},'%')
 	</if>
-	<if test="search_type == 'user_name'.toString() ">
+	<if test="search_type == 'user_name'.toString()">
 		USER_NM LIKE CONCAT('%',#{search_keyword},'%')
 	</if>
-</if>
+</if> 
 order by sbscrb_de desc
 LIMIT #{queryStartNo},#{queryPerPageNum}
 </select>
@@ -43,62 +43,62 @@ select * from lettnemplyrinfo where emplyr_id = #{emplyr_id}
 
 <insert id="insertMember">
 insert into lettnemplyrinfo (
-	EMPLYR_ID,
-	ORGNZT_ID,
-	USER_NM,
-	PASSWORD,
-	EMPL_NO,
-	IHIDNUM,
-	SEXDSTN_CODE,
-	BRTHDY,
-	FXNUM,
-	HOUSE_ADRES,
-	PASSWORD_HINT,
-	PASSWORD_CNSR,
-	HOUSE_END_TELNO,
-	AREA_NO,
-	DETAIL_ADRES,
-	ZIP,
-	OFFM_TELNO,
-	MBTLNUM,
-	EMAIL_ADRES,
-	OFCPS_NM,
-	HOUSE_MIDDLE_TELNO,
-	GROUP_ID,
-	PSTINST_CODE,
-	EMPLYR_STTUS_CODE,
-	ESNTL_ID,
-	CRTFC_DN_VALUE,
-	SBSCRB_DE
+EMPLYR_ID,
+ORGNZT_ID,
+USER_NM,
+PASSWORD,
+EMPL_NO,
+IHIDNUM,
+SEXDSTN_CODE,
+BRTHDY,
+FXNUM,
+HOUSE_ADRES,
+PASSWORD_HINT,
+PASSWORD_CNSR,
+HOUSE_END_TELNO,
+AREA_NO,
+DETAIL_ADRES,
+ZIP,
+OFFM_TELNO,
+MBTLNUM,
+EMAIL_ADRES,
+OFCPS_NM,
+HOUSE_MIDDLE_TELNO,
+GROUP_ID,
+PSTINST_CODE,
+EMPLYR_STTUS_CODE,
+ESNTL_ID,
+CRTFC_DN_VALUE,
+SBSCRB_DE
 ) values (
-	#{EMPLYR_ID},
-	#{ORGNZT_ID},
-	#{USER_NM},
-	#{PASSWORD},
-	#{EMPL_NO},
-	#{IHIDNUM},
-	#{SEXDSTN_CODE},
-	#{BRTHDY},
-	#{FXNUM},
-	#{HOUSE_ADRES},
-	#{PASSWORD_HINT},
-	#{PASSWORD_CNSR},
-	#{HOUSE_END_TELNO},
-	#{AREA_NO},
-	#{DETAIL_ADRES},
-	#{ZIP},
-	#{OFFM_TELNO},
-	#{MBTLNUM},
-	#{EMAIL_ADRES},
-	#{OFCPS_NM},
-	#{HOUSE_MIDDLE_TELNO},
-	#{GROUP_ID},
-	#{PSTINST_CODE},
-	#{EMPLYR_STTUS_CODE},
-	#{ESNTL_ID},
-	#{CRTFC_DN_VALUE},
+#{EMPLYR_ID},
+#{ORGNZT_ID},
+#{USER_NM},
+#{PASSWORD},
+#{EMPL_NO},
+#{IHIDNUM},
+#{SEXDSTN_CODE},
+#{BRTHDY},
+#{FXNUM},
+#{HOUSE_ADRES},
+#{PASSWORD_HINT},
+#{PASSWORD_CNSR},
+#{HOUSE_END_TELNO},
+#{AREA_NO},
+#{DETAIL_ADRES},
+#{ZIP},
+#{OFFM_TELNO},
+#{MBTLNUM},
+#{EMAIL_ADRES},
+#{OFCPS_NM},
+#{HOUSE_MIDDLE_TELNO},
+#{GROUP_ID},
+#{PSTINST_CODE},
+#{EMPLYR_STTUS_CODE},
+#{ESNTL_ID},
+#{CRTFC_DN_VALUE},
 now()
-)
+) 
 </insert>
 
 <update id="updateMember">
@@ -130,6 +130,7 @@ PSTINST_CODE=#{PSTINST_CODE},
 EMPLYR_STTUS_CODE=#{EMPLYR_STTUS_CODE},
 ESNTL_ID=#{ESNTL_ID},
 CRTFC_DN_VALUE=#{CRTFC_DN_VALUE}
+
 where EMPLYR_ID=#{EMPLYR_ID}
 </update>
 

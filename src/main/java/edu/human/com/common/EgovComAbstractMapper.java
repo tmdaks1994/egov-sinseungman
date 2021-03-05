@@ -22,7 +22,7 @@ import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
  * 오버라이드해서 전자정부에서 제공한 EgovAbastacMapper 추상클래스에서 정의된 명세를 
  * 아래 클래스 재정의(오버라이딩)해서 메서드를 구현하게 됩니다. 
  * 추상클래스를 만드는 목적: 멤버변수또는 멤버메서드를 규격화 합니다.(전자정부표준을 준수하였는지 인증받기 위해서)
- * @author 뚫어봐
+ * @author 김일국
  *
  */
 public abstract class EgovComAbstractMapper extends EgovAbstractMapper {
@@ -80,7 +80,7 @@ public abstract class EgovComAbstractMapper extends EgovAbstractMapper {
 	public int update(String queryId, Object parameterObject) {
 		return getSqlSession().update(queryId, parameterObject);
 	}
-
+	
 	@Override
 	public <E> List<E> selectList(String queryId, Object parameterObject, RowBounds rowBounds) {
 		return getSqlSession().selectList(queryId, parameterObject, rowBounds);
@@ -98,7 +98,7 @@ public abstract class EgovComAbstractMapper extends EgovAbstractMapper {
 		RowBounds rowBounds = new RowBounds(offset, pageSize);//(시작인덱스번호,꺼내올 개수)
 		return getSqlSession().selectList(queryId, parameterObject, rowBounds);
 	}
-	
+
 	@Override
 	public <K, V> Map<K, V> selectMap(String queryId, Object parameterObject, String mapKey) {
 		// 공통코드를 위한 맵타입을 반환하는 sqlSession템플릿 사용(아래)
@@ -107,8 +107,9 @@ public abstract class EgovComAbstractMapper extends EgovAbstractMapper {
 
 	@Override
 	public <K, V> Map<K, V> selectMap(String queryId, String mapKey) {
-		// 그룹코드는 키로 이름은 value
+		// 그룹코드는 키로 이름은 밸류로 맵자료형으로 반환하는 sqlSession템플릿 사용(아래)
 		return getSqlSession().selectMap(queryId, mapKey);
 	}
-
+	
+	
 }

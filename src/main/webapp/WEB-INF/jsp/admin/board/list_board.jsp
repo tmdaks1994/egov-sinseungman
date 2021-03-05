@@ -77,6 +77,9 @@
                     </tr>
                   </thead>
                   <tbody>
+                  <c:if test="${fn:length(resultList) == 0}">
+                  	<tr><td class="text-center" colspan="5">조회된 값이 없습니다.</td></tr>
+                  </c:if>
                   <c:forEach items="${resultList}" var="result" varStatus="status">
                     <tr>
                       <td>
@@ -93,8 +96,7 @@
 		                </c:forEach>
 		                &#8627;<!-- 화살표 특수문자 -->
 		              </c:if>
-		              
-                        <input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>" />
+                      	<input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>" />
                         <input type="hidden" name="nttId"  value="<c:out value="${result.nttId}"/>" />
                         <input type="hidden" name="bbsTyCode" value="<c:out value='${brdMstrVO.bbsTyCode}'/>" />
                         <input type="hidden" name="bbsAttrbCode" value="<c:out value='${brdMstrVO.bbsAttrbCode}'/>" />
@@ -119,7 +121,7 @@
             
             <!-- 버튼영역 시작 -->
               <div class="card-body">
-              	<a href="<c:url value='/admin/board/insert_board.do' />" class="btn btn-primary float-right">글작성</a>
+              	<a href="<c:url value='/admin/board/insert_board_form.do?bbsId=${boardVO.bbsId}' />" class="btn btn-primary float-right">글작성</a>
               	<!-- 부트스트랩 디자인 버튼클래스를 이용해서 a태그를 버튼모양 만들기(위) -->
               	<!-- btn클래스명이 버튼모양으로 변경, btn-primary클래스명은 버튼색상을 변경하는역할 -->
               	<!-- 
@@ -147,7 +149,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
 
 <%@ include file="../include/footer.jsp" %>
 <script>

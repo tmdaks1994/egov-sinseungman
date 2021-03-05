@@ -3,9 +3,9 @@
 <configuration>
 	<!-- myBatis 설정 -->
 	<settings>
-		<!-- 전통적인 데이터베이스 컬럼명 형태인 A_COLUMN을 카멜표기형태로 aColumn -->
-		<!-- <setting name="mapUnderscoreToCamelCase" value="true" />-->
-		<!-- 파라미터에null값이 있을 경우 공백 -->
-		<setting name="jdbcTypeForNull" value="VARCHAR" />
+		<!-- 전통적인 데이터베이스 컴럼명 형태인 대문자 A_COLUMN을 카멜표기형태로 aColumn 자동으로 변환해서 Get/Set에서 사용 -->
+		<!-- <setting name="mapUnderscoreToCamelCase" value="true"></setting> -->
+		<!-- 파라미터에 Null 값이 있을 경우 공백으로 처리 Null => '' -->
+		<setting name="jdbcTypeForNull" value="VARCHAR"/>
 	</settings>
 </configuration>

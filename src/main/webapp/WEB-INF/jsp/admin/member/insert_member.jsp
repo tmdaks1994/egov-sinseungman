@@ -34,7 +34,7 @@
           
           <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Insert Member</h3>
+                <h3 class="card-title">INSERT Member</h3>
               </div>
               <!-- /.card-header -->
               
@@ -65,8 +65,8 @@
                   <div class="form-group">
                   	<label for="SEXDSTN_CODE">SEXDSTN_CODE</label>
                   	<select class="form-control" name="SEXDSTN_CODE" id="SEXDSTN_CODE">
-                  		<option value="M">남자</option>
-                  		<option value="F">여자</option>
+                  		<option value="M" >남자</option>
+                  		<option value="F" >여자</option>
                   	</select>
                   </div>
                   <div class="form-group">
@@ -79,13 +79,13 @@
                   </div>
                   <div class="form-group">
                   	<label for="ORGNZT_ID">ORGNZT_ID</label>
-                  	<input value="ORGNZT_0000000000000" type="text" class="form-control" name="ORGNZT_ID" id="ORGNZT_ID" placeholder="소속기관을 입력해 주세요" required>
+                  	<input value="ORGNZT_0000000000000" type="text" class="form-control" name="ORGNZT_ID" id="ORGNZT_ID" placeholder="소속기관을 입력해 주세요" required readonly>
                   </div>
                   <div class="form-group">
                   	<label for="EMPLYR_STTUS_CODE">EMPLYR_STTUS_CODE</label>
                   	<select class="form-control" name="EMPLYR_STTUS_CODE" id="EMPLYR_STTUS_CODE">
 	                  	<c:forEach items="${codeMap}" var="sub">
-	                  		<option value="${sub.value.CODE}" <c:out value="${(memberVO.EMPLYR_STTUS_CODE==sub.value.CODE)?'selected':''}" />>${sub.value.CODE_NM}</option>
+	                  		<option value="${sub.value.CODE}">${sub.value.CODE_NM}</option>
 	                  	</c:forEach>
                   	</select>
                   	<!-- 위 코드 설명: 맵자료형을 jstl에서 출력하기 (아래) -->
@@ -99,7 +99,7 @@
                   	<label for="GROUP_ID">GROUP_ID</label>
                   	<select class="form-control" name="GROUP_ID" id="GROUP_ID">
                   		<c:forEach items="${codeGroup}" var="sub">
-                  			<option value="${sub.value.GROUP_ID}">${sub.value.GROUP_NM}</option>
+                  			<option value="${sub.value.GROUP_ID}" >${sub.value.GROUP_NM}</option>
                   		</c:forEach>
                   	</select>                  		
                   </div>
@@ -108,16 +108,18 @@
                   	<input type="text" class="form-control" name="ESNTL_ID" id="ESNTL_ID" placeholder="게시판관리 고유ID를 입력해 주세요" required readonly>
                   </div>
                 </div>
-                <!-- /.card-body -->   
+                <!-- /.card-body -->
+              
            </div>
           
           <!-- 버튼영역 시작 -->
             <div class="card-body">
             	<a href="<c:url value='/admin/member/list_member.do' />" class="btn btn-primary float-right mr-1">목록</a>
-              	<button id="btn_insert" type="submit" class="btn btn-info float-right mr-1" disabled>등록</button>        	
+              	<button id="btn_insert" type="submit" class="btn btn-info float-right mr-1" disabled>등록</button>
               	<!-- a태그는 링크이동은 되지만, post값을 전송하지는 못합니다. 그래서, button태그를 사용. -->
             </div>
           <!-- 버튼영역 끝 -->
+          
           </form>
           <!-- 폼내부에 버튼이 있어야지만, 전송버튼이 작동 됩니다. -->
           
@@ -131,9 +133,10 @@
   <!-- /.content-wrapper -->
 
 <%@ include file="../include/footer.jsp" %>
-
 <script>
 $(document).ready(function(){
+	//EMPYR_ID 중복체크 이후 submit버튼을 disabled를 false로 활성화 시키면 전송이 가능 Ajax
+	//blur조건 focus의 반대말.
 	$("#EMPLYR_ID").bind("blur", function(){
 		var emplyr_id = $(this).val();
 		$.ajax({
@@ -153,6 +156,7 @@ $(document).ready(function(){
 				alert("RestAPI서버에 문제가 있습니다.");
 			}
 		});
+		
 	});
 });
 </script>

@@ -15,11 +15,11 @@ public class PageVO {
 	private int startPage;//jsp화면에서 보여주는 페이징 리스트의 시작번호
 	private int endPage;//jsp화면에서 보여주는 페이징 리스트의 끝번호
 	//start페이지와 end페이지 변수가 필요한 이유?
-
+	
 	//검색에 필요한 변수 2개도 포함시켜서, 컨트롤러에서 매개변수 사용을 축소하게 됩니다.
 	private String search_type;//검색조건
 	private String search_keyword;//검색어
-
+	
 	public String getBoard_type() {
 		//this.board_type = "notice";//세션변수를 사용할 예정.
 		return board_type;
@@ -28,7 +28,7 @@ public class PageVO {
 	public void setBoard_type(String board_type) {
 		this.board_type = board_type;
 	}
-
+	
 	//전체 클래스에서 [계산식]이 4개 필요합니다. 개발자가 만들어야 합니다.(아래)
 	//계산식4개로 반환되는 값은: startPage(11), endPage(20), prev(true), next(false)
 	//아래 메서드에서 사용되는 totalCount변수는 컨트롤러에서 쿼리문을 통해서 전송받습니다.
@@ -69,7 +69,7 @@ public class PageVO {
 		//20x10 < 195 결과는 false 이기 때문에 jsp에서  >표시가 않보이게 처리함.
 		//예) < 11 12 13 14 15 16 17 18 19 20(tempEnd)  시작 11 과 끝 20
 	}
-
+	
 	public int getPerPageNum() {
 		return perPageNum;
 	}
@@ -146,5 +146,5 @@ public class PageVO {
 	public void setQueryPerPageNum(int queryPerPageNum) {
 		this.queryPerPageNum = queryPerPageNum;
 	}
-
+	
 }

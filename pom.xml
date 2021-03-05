@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>egov-sinseungman</groupId>
-	<artifactId>egov-sinseungman</artifactId>
+	<groupId>egov-kimilguk</groupId>
+	<artifactId>egov-kimilguk</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0</version>
-	<name>egov-sinseungman</name>
+	<name>egov-kimilguk</name>
 	<url>http://www.egovframe.go.kr</url>
 
 	<licenses>
@@ -129,13 +129,13 @@
 			<artifactId>commons-compress</artifactId>
 			<version>1.19</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-
+		
 		<!-- mysql driver -->
 		
         <dependency>
@@ -212,9 +212,9 @@
 			<artifactId>icu4j</artifactId>
 			<version>53.1</version>
 		</dependency>
-	
-	<!-- egov커스터마이징 때문에 추가 -->
-	<!-- 마이바티스 사용 모듈 추가 -->
+		
+		<!-- egov커스터마이징 때문에 추가(아래) -->
+		<!-- 마이바티스 사용 모듈 추가 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
@@ -225,7 +225,6 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-		
 		<!-- Junit테스트 모듈 추가 -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -254,9 +253,16 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-	
+		
+		<!-- Tiles -->
+	    <dependency>
+	        <groupId>org.apache.tiles</groupId>
+	        <artifactId>tiles-extras</artifactId>
+	        <version>3.0.8</version>
+	    </dependency>
+		
 	</dependencies>
-	
+
     <build>
         <defaultGoal>install</defaultGoal>
         <directory>${basedir}/target</directory>
