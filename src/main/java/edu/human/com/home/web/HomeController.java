@@ -67,6 +67,11 @@ public class HomeController {
 	private BoardService boardService;
 	
 
+	@RequestMapping("/tiles/join.do")
+	public String join() throws Exception{
+		
+		return "join.tiles";
+	}
 	@RequestMapping("/tiles/board/previewImage.do")
 	public void previewImage(HttpServletRequest request, HttpServletResponse response, @RequestParam("atchFileId") String atchFileId) throws Exception {
 		FileVO fileVO = new FileVO();
@@ -210,9 +215,7 @@ public class HomeController {
 		BoardMaster master = new BoardMaster();
 		BoardMasterVO bmvo = new BoardMasterVO();
 		BoardVO bdvo = new BoardVO();
-
 		vo.setBbsId(boardVO.getBbsId());
-
 		master.setBbsId(boardVO.getBbsId());
 		master.setUniqId(user.getUniqId());
 
