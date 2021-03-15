@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import edu.human.com.member.service.EmployerInfoVO;
 import edu.human.com.member.service.MemberService;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.let.uat.uia.service.EgovLoginService;
+import egovframework.rte.fdl.string.EgovObjectUtil;
 
 @Controller
 public class CommonUtil {
@@ -31,6 +34,22 @@ public class CommonUtil {
 	 * 기존 로그인 처리는 egov것 그대로 사용하고,
 	 * 단, 로그은 처리 이후 이동할 페이지를 OLD에서 NEW로 변경합니다.
 	 */
+	
+	public Boolean getAuthorities() throws Exception {
+		Boolean authority = Boolean.FALSE;
+		//인증체크(로그인 상태인지, 아닌지 판단)
+		if (EgovObjectUtil.isNull((LoginVO) RequestContextHolder.getRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION))) {
+			return authority;
+		}
+		//권한체크(관리자인지, 일반사용자인지 판단)
+		LoginVO sessionLoginVO = (LoginVO) RequestContextHolder.getRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
+		EmployerInfoVO memberVO = memberService.viewMember(sessionLoginVO.getId());
+		if( "GROUP_00000000000000".equals(memberVO.getGROUP_ID()) ) {
+			authority = Boolean.TRUE;
+		}
+		//여기까지 true값을 가져오면, 관리자라고 명시.
+		return authority;
+	}
 	@RequestMapping(value = "/login_action.do")//변경1
 	public String actionLogin(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
 
@@ -42,6 +61,12 @@ public class CommonUtil {
 		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
 			//로그인 성공시
 			request.getSession().setAttribute("LoginVO", resultVO);
+			//로그인 성공후 관리자그룹일때 관리자 세션 ROLE_ADMIN명 추가
+			LoginVO sessionLoginVO = (LoginVO) RequestContextHolder.getRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
+			EmployerInfoVO memberVO = memberService.viewMember(sessionLoginVO.getId());
+			if( "GROUP_00000000000000".equals(memberVO.getGROUP_ID()) ) {
+				request.getSession().setAttribute("ROLE_ADMIN", memberVO.getGROUP_ID());
+			}
 			return "forward:/tiles/home.do";//변경2 NEW홈으로 이동
 		} else {
 			//로그인 실패시
