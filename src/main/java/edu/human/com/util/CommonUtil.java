@@ -1,6 +1,7 @@
 package edu.human.com.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.impl.SimpleLog;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
@@ -42,7 +47,10 @@ public class CommonUtil {
 	@Autowired
 	private EgovMessageSource egovMessageSource;
 	
-	//로그인 인증+권한 체크 1개 메서드로 처리(아래)
+	private Logger logger = Logger.getLogger(SimpleLog.class);
+	
+	//스프링시큐리티 권한체크X, 개발자 임의로 만든 권한체크 입니다.
+	//로그인 인증+권한 체크 1개 메서드로 처리(아래) AdminController에서 관리자 권한 체크때문에 생성.
 	//기존전자정부에서 List<String>를 사용한 이유 ROLE_ADMIN,ROLE_USER 권한이 2개 이상일수 있습니다
 	public Boolean getAuthorities() throws Exception {
 		Boolean authority = Boolean.FALSE;
@@ -59,10 +67,30 @@ public class CommonUtil {
 		//여기까지 true값을 가져오면, 관리자라고 명시.
 		return authority;
 	}
+	//스프링시큐리티 권한체크
+	//EgovUserDetailHelper클래스에 있는 매서드를 복사해서 CommonUtil클래스에 가져다가 사용
+	private List<String> getAuthorities(String string) {
+		List<String> listAuth = new ArrayList<String>();
+		if (EgovObjectUtil.isNull((LoginVO) RequestContextHolder.getRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION))) {
+			return null;
+		}
+		//스프링 시큐리티 연동 추가(아래)
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String listAuthTemp1 = authentication.getAuthorities().toString();
+		logger.debug("디버그 : 로그인 사용자의 권한 리스트 출력" + listAuthTemp1);
+		//String을 리스트형으로 변환해서 반환값에 넣습니다.(아래) [ ROLE_ADMIN, ROLE_USER ] 를 리스트형변환
+		listAuthTemp1 = listAuthTemp1.replace("[", "");
+		listAuthTemp1 = listAuthTemp1.replace("]", "");
+		listAuthTemp1 = listAuthTemp1.replace(" ", "");
+		String[] listAuthTemp2 = listAuthTemp1.split(",");
+		listAuth = Arrays.asList(listAuthTemp2);//배열을 리스트로 형변환하는 매서드 asList사용.
+		
+		return listAuth;
+	}
 	
 	/**
 	 * 기존 로그인 처리는 egov것 그대로 사용하고,
-	 * 단, 로그은 처리 이후 이동할 페이지를 OLD에서 NEW로 변경합니다.
+	 * 단, 로그은 처리 이후 이동할 페이지를 OLD에서 NEW로 변경.
 	 */
 	@RequestMapping(value = "/login_action.do")//변경1
 	public String actionLogin(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
@@ -76,11 +104,14 @@ public class CommonUtil {
 			//로그인 성공시
 			request.getSession().setAttribute("LoginVO", resultVO);
 			//로그인 성공후 관리자그룹일때 관리자 세션 ROLE_ADMIN명 추가
+			//스프링 시큐리티 사용X, 개발자 임의로 생성
+			/*
 			LoginVO sessionLoginVO = (LoginVO) RequestContextHolder.getRequestAttributes().getAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
 			EmployerInfoVO memberVO = memberService.viewMember(sessionLoginVO.getId());
 			if( "GROUP_00000000000000".equals(memberVO.getGROUP_ID()) ) {
 				request.getSession().setAttribute("ROLE_ADMIN", memberVO.getGROUP_ID());
 			}
+			*/
 			//스프링 시큐리티 연동 추가
 			UsernamePasswordAuthenticationFilter springSecurity = null;
 			ApplicationContext act = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
@@ -92,19 +123,24 @@ public class CommonUtil {
 				springSecurity.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(
 						request.getServletContext().getContextPath() + "/egov_security_login", "POST"));
 			} else {
-				throw new IllegalStateException("No AuthenticationProcessingFilter");
+				//throw new IllegalStateException("No AuthenticationProcessingFilter");
+				return "forward:/tiles/home.do";//context-security.xml에서 bean설정없을때
 			}
+			//false이면 chain 처리 되지 않음
 			springSecurity.setContinueChainBeforeSuccessfulAuthentication(false); 
-			//false이면 chain 처리 되지 않음.. (filter가 아닌 경우 false로...)
+			//set으로 username과 password를 처리 context-security.xml파일의 ? 변수 저장(아래)
 			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getId(), resultVO.getPassword()), response, null);
 			
-			System.out.println("context-security.xml파일의 jdbcAuthoritiesByUsernameQuery 확인");
-	    	List<String> authorities = EgovUserDetailsHelper.getAuthorities();
+	    	//List<String> authorities = EgovUserDetailsHelper.getAuthorities();
+	    	List<String> authorities = getAuthorities("EgovUserDetailsHelper is Not use");
 	    	// 1. authorites 에  권한이 있는지 체크 TRUE/FALSE
-	    	System.out.println(authorities.contains("ROLE_ADMIN"));
-	    	System.out.println(authorities.contains("ROLE_USER"));
-	    	System.out.println(authorities.contains("ROLE_ANONYMOUS"));
-			
+	    	logger.debug("디버그:" + authorities.contains("ROLE_ADMIN"));
+	    	logger.debug("디버그:" + authorities.contains("ROLE_USER"));
+	    	logger.debug("디버그:" +authorities.contains("ROLE_ANONYMOUS"));
+			//위 값을 이용해서 세션을 발생 시킵니다.
+	    	if(authorities.contains("ROLE_ADMIN")) {
+	    		request.getSession().setAttribute("ROLE_ADMIN", true);
+	    	}
 			return "forward:/tiles/home.do";//변경2 NEW홈으로 이동
 		} else {
 			//로그인 실패시
@@ -113,7 +149,6 @@ public class CommonUtil {
 		}
 
 	}
-	
 	
 	/**
      * XSS 방지 처리. 자바스크립트 코드를 실행하지 못하는 특수문자로 replace(교체)하는내용

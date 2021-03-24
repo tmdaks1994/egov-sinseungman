@@ -67,6 +67,11 @@ public class AdminController {
 	@Autowired
 	private EgovFileMngUtil fileUtil;
 	
+	@RequestMapping(value="/admin/authorrole/list_author.do",method=RequestMethod.GET)
+	public String list_author() throws Exception{
+		//
+		return "admin/authorrole/list_author";
+	}
 	//게시물 등록 폼화면 호출 POST
 	@RequestMapping("/admin/board/insert_board_form.do")
 	public String insert_board_form(@ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception {
