@@ -1,4 +1,4 @@
-package edu.human.com.authorole.service;
+package edu.human.com.authorrole.service;
 
 /**
  * AuthorRoleVO 클래스는 
