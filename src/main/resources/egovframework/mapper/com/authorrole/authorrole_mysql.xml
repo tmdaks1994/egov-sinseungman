@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="authorroleMapper">
 
-<select id="selectAuthorRole" resultType="edu.human.com.authorrole.service.AuthorRoleVO">
-select * from authorrole
+<sql id="searchQuery">
 <if test="search_type !=null and search_type !='' ">
 where
 	<if test="search_type == 'all'.toString() ">
@@ -18,6 +17,16 @@ where
 		ROLE_PTTRN LIKE CONCAT('%',#{search_keyword},'%')
 	</if>
 </if> 
+</sql>
+
+<select id="countAuthorRole" resultType="int">
+select count(*) from authorrole 
+<include refid="searchQuery" />
+</select>
+
+<select id="selectAuthorRole" resultType="edu.human.com.authorrole.service.AuthorRoleVO">
+select * from authorrole
+<include refid="searchQuery" />
 order by sort_ordr desc
 LIMIT #{queryStartNo},#{queryPerPageNum}
 </select>
