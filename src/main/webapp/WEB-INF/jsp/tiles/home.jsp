@@ -3,10 +3,37 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
 <style>
-.img_topplace { opacity:0.7; height:238px; }
+@media all and (min-width: 801px) {
+	.fix_height { 
+		height: 440px;
+	    overflow: hidden;
+	    line-height: 440px;
+	 }
+ }
+.img_topplace { opacity:0.7; }
 .img_topplace:hover {/*가상선택자 :, 가성요소 ::*/
 	opacity:1.0;
 }
+<script>
+//CSS미디어쿼리로 비율 조정하기는 무시하고, 반응형으로 이미지 비율 자동 조정하기
+jQuery(function($){ //j쿼리 시작 : $(document).ready(function(){ }); == $(function(){ }); 과 동일
+	var w=$(window).width();
+	if(w>801){
+    	$(".fix_height").css({"height":(w/3)+"px","line-height":(w/3)+"px"});
+    }else{
+    	$(".fix_height").css({"height":"inherit","line-height":"inherit"});
+    }
+	$(window).resize(function(){
+        console.log("디버그: "+w)
+        var w=$(window).width();
+        if(w>801){
+        	$(".fix_height").css({"height":(w/3)+"px","line-height":(w/3)+"px"});
+        }else{
+        	$(".fix_height").css({"height":"inherit","line-height":"inherit"});
+        }
+    });
+});
+</script>
 </style>
 	<!-- 메인콘텐츠영역 -->
 	<div id="container">
@@ -65,12 +92,14 @@
 					<c:forEach items="${galleryList}" var="galleryVO">
 					<li class="view_detail" style="cursor:pointer">
 					<form name="view_form" action="<c:url value='/tiles/board/view_board.do' />" method="post">
+						<div class="fix-_height">
 						<c:if test="${empty galleryVO.atchFileId}">
 							<img class="img_topplace" src="<c:url value='/' />resources/home/img/no_image.png" alt="OOOO OOOOO" />
 						</c:if>
 						<c:if test="${not empty galleryVO.atchFileId}">
 							<img class="img_topplace" src="<c:url value='/tiles/board/previewImage.do' />?atchFileId=${galleryVO.atchFileId}" />
 						</c:if>
+						</div>
 						<h3>${galleryVO.nttSj}</h3>
 						<p class="txt">
 						<%-- 기본처리(아래)
