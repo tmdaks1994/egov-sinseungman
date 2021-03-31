@@ -4,37 +4,39 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
 <style>
 @media all and (min-width: 801px) {
-	.fix_height { 
-		height: 440px;
-	    overflow: hidden;
-	    line-height: 440px;
-	 }
- }
+	.fix_height {
+		height:440px;
+		overflow:hidden;
+		line-height:440px;
+	}
+}
 .img_topplace { opacity:0.7; }
 .img_topplace:hover {/*가상선택자 :, 가성요소 ::*/
 	opacity:1.0;
 }
-<script>
-//CSS미디어쿼리로 비율 조정하기는 무시하고, 반응형으로 이미지 비율 자동 조정하기
-jQuery(function($){ //j쿼리 시작 : $(document).ready(function(){ }); == $(function(){ }); 과 동일
-	var w=$(window).width();
-	if(w>801){
-    	$(".fix_height").css({"height":(w/3)+"px","line-height":(w/3)+"px"});
-    }else{
-    	$(".fix_height").css({"height":"inherit","line-height":"inherit"});
-    }
-	$(window).resize(function(){
-        console.log("디버그: "+w)
-        var w=$(window).width();
-        if(w>801){
-        	$(".fix_height").css({"height":(w/3)+"px","line-height":(w/3)+"px"});
-        }else{
-        	$(".fix_height").css({"height":"inherit","line-height":"inherit"});
-        }
-    });
-});
-</script>
 </style>
+<script>
+$(function(){
+	//var w = JQuery(window).width();
+	var w = $(window).width();
+	if(w>801) {
+		$(".fix_height").css({"height":(w/3)+"px","line-height":(w/3)+"px"});
+	}
+	//창 리사이징 이벤트가 발생시 아래 반응형 코딩 추가(사용자 창크기를 마음대로 조정시 height값을 자동조정되게)
+	$(window).resize(function(){
+		var w = $(window).width();
+		console.log("디버그: "+w);
+		if(w>801) {
+			$(".fix_height").css({"height":(w/3)+"px","line-height":(w/3)+"px"});
+		}else{
+			$(".fix_height").css({"height":"inherit","line-height":"inherit"});
+		}
+	});
+});
+//JQuery(function($){
+//$(function(){});
+//$(document).ready(function(){});
+</script>
 	<!-- 메인콘텐츠영역 -->
 	<div id="container">
 		<!-- 모바일+PC 공통슬라이드영역 -->
@@ -92,7 +94,7 @@ jQuery(function($){ //j쿼리 시작 : $(document).ready(function(){ }); == $(fu
 					<c:forEach items="${galleryList}" var="galleryVO">
 					<li class="view_detail" style="cursor:pointer">
 					<form name="view_form" action="<c:url value='/tiles/board/view_board.do' />" method="post">
-						<div class="fix-_height">
+						<div class="fix_height">
 						<c:if test="${empty galleryVO.atchFileId}">
 							<img class="img_topplace" src="<c:url value='/' />resources/home/img/no_image.png" alt="OOOO OOOOO" />
 						</c:if>

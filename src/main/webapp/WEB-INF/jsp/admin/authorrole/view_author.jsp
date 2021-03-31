@@ -30,7 +30,7 @@
           <div class="col-12"><!-- 그리드시스템중 12가로칼럼 width:100% -->
           
           <!-- form start -->
-          <form name="write_form" action="<c:url value='/admin/author/update_author.do' />" method="post">
+          <form name="write_form" action="<c:url value='/admin/authorrole/update_author.do' />" method="post">
           
           <div class="card card-primary">
               <div class="card-header">
@@ -49,7 +49,7 @@
                   	<label for="AUTHOR_CODE">AUTHOR_CODE</label>
                   	<select class="form-control" name="AUTHOR_CODE" id="AUTHOR_CODE">
                   		<c:forEach items="${codeGroup}" var="sub">
-                  			<option value="${sub.value.GROUP_NM}" <c:out value="${(result.AUTHOR_CODE eq sub.value.GROUP_NM)?'selected':''}" /> >${sub.value.GROUP_NM}</option>
+                  			<option value="${sub.value.group_nm}" <c:out value="${(result.AUTHOR_CODE eq sub.value.group_nm)?'selected':''}" /> >${sub.value.group_nm}</option>
                   		</c:forEach>
                   	</select>                		
                   </div>

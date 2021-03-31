@@ -82,7 +82,7 @@ public class AdminController {
 		//업데이트서비스 호출
 		authorRoleService.updateAuthorRole(authorRoleVO);
 		rdat.addFlashAttribute("msg","수정");
-		return "forward:/admin/authorrole/view_author.do?page="+pageVO.getPage()+"&authorrole_id="+authorRoleVO.getAUTHORROLE_ID();
+		return "redirect:/admin/authorrole/view_author.do?page="+pageVO.getPage()+"&authorrole_id="+authorRoleVO.getAUTHORROLE_ID();
 	}
 	@RequestMapping(value="/admin/authorrole/view_author.do",method=RequestMethod.GET)
 	public String view_author(@RequestParam("authorrole_id") int authorrole_id,Model model,@ModelAttribute("pageVO") PageVO pageVO) throws Exception{
