@@ -34,7 +34,7 @@ LIMIT #{queryStartNo},#{queryPerPageNum}
 select * from authorrole
 where AUTHORROLE_ID = #{AUTHORROLE_ID}
 </select>
-<insert id="inserAuthorRole">
+<insert id="insertAuthorRole">
 insert into authorrole
 (
 AUTHORROLE_ID,
@@ -46,7 +46,6 @@ USE_AT
 )values(
 (select AUTHORROLE_ID+1 from authorrole
 order by authorrole_id desc limit 1),
-#{AUTHORROLE_ID},
 #{ROLE_PTTRN},
 #{AUTHOR_CODE},
 #{AUTHORROLE_DC},

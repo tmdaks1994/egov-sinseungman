@@ -33,4 +33,16 @@ public class AuthorRoleServiceImpl implements AuthorRoleService {
 		authorRoleDAO.updateAuthorRole(authorRoleVO);
 	}
 
+	@Override
+	public void insertAuthorRole(AuthorRoleVO authorRoleVO) throws Exception {
+		// TODO Auto-generated method stub
+		authorRoleDAO.insertAuthorRole(authorRoleVO);
+	}
+
+	@Override
+	public void deleteAuthorRole(int AUTHORROLE_ID) throws Exception {
+		// TODO Auto-generated method stub
+		authorRoleDAO.deleteAuthorRole(AUTHORROLE_ID);
+	}
+
 }
